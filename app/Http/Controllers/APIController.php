@@ -21,28 +21,11 @@ class APIController extends Controller
 
 	}
 
-	public function getUserDatabase($api_key)
-	{
-		$user_database = '';
-		$list_data = $this->database->getReference('/users/'.$api_key)->getSnapshot()->getValue();
-		foreach ($list_data as $key => $data) {
-			if (is_array($data)) {
-				foreach ($data as $key2 => $data_child) {
-					if ($data['api_key'] == $api_key) {
-						$user_database = $key;
-						break;
-					}
-				}
-			}
-		}
-
-		if (! $user_database) {
-			return json_encode(array('status' => 'error', 'message' => 'user not found'));
-		}
-
-		return $list_data;
-	}
-
+	/**
+	 * API for get child
+	 * call api : api.attendance.app/[API_KEY]/[FIELD]
+	 * example : api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/employees
+	 */
 	public function getField($api_key, $field)
 	{
 		$list_data = $this->database->getReference('/users/'.$api_key.'/'.$field)->getSnapshot()->getValue();
@@ -52,6 +35,42 @@ class APIController extends Controller
 		}
 
 		return $list_data;
+	}
+
+	/**
+	 * API for get report all user
+	 */
+	public function getReport($api_key)
+	{
+		$array_data = [];
+		$name_employee = '';
+		$list_child = $this->database->getReference('/users/'.$api_key.'/employees/')->getChildKeys();
+		foreach ($list_child as $key => $code) {
+			$employee_id = $code;
+			$employee_name = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/name')->getSnapshot()->getValue();
+			$list_schedule = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/schedulle')->getChildKeys();
+			foreach ($list_schedule as $key_schedule => $value_schedule) {
+				$list_data = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/schedulle/'.$value_schedule)->getValue();
+				array_push($array_data, [
+					'id' => $employee_id,
+					'name' => $employee_name,
+					'check_in' => $list_data['check_in'],
+					'check_out' => $list_data['check_out'],
+					'date' => $list_data['date'],
+					'denda' => $list_data['denda'],
+					'selisih_jam_datang' => $list_data['selisih_jam_datang'],
+					'selisih_jam_pulang' => $list_data['selisih_jam_pulang'],
+					'time_in' => $list_data['time_in'],
+					'time_out' => $list_data['time_out'],
+					'tunjangan_makan' => $list_data['tunjangan_makan'],
+					'tunjangan_parkir' => $list_data['tunjangan_parkir'],
+					'tunjangan_pulsa' => $list_data['tunjangan_pulsa'],
+					'gaji' => $list_data['gaji']
+				]);
+			}
+		}
+
+		return json_encode($array_data);
 	}
 
 	public function getFieldByValue(Request $request, $api_key, $field)
@@ -80,20 +99,4 @@ class APIController extends Controller
 
 		return $index_field;
 	}
-
-	// public function getEmployee()
-	// {
-	// 	$list_employee = $this->database->getReference('/employee')->getSnapshot()->getValue();
-	//     return $list_employee;
-	// }
-
-	// public function getEmployeeByKey($key)
-	// {
-	// 	$employee = $this->database->getReference('/employee/'.$key)->getSnapshot()->getValue();
-	// 	if (! $employee) {
-	// 		return json_encode(array('data' => 'data not found'));
-	// 	}
-
-	//     return $employee;
-	// }
 }
