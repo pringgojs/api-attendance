@@ -37,6 +37,21 @@ class APIController extends Controller
 		return $list_data;
 	}
 
+	public function getEmployee($api_key)
+	{
+		$array_data = [];
+		$name_employee = '';
+		$i=1;
+		$list_child = $this->database->getReference('/users/'.$api_key.'/employees/')->getChildKeys();
+		foreach ($list_child as $key => $code) {
+			$employee_id = $code;
+			$employee_name = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/name')->getSnapshot()->getValue();
+			array_push($array_data, ['id' => $employee_id, 'name' => $employee_name]);
+		}
+
+		return $array_data;
+	}
+
 	/**
 	 * API for get report all user
 	 */

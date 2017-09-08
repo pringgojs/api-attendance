@@ -15,5 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/{api_key}/employees', 'APIController@getEmployee');
 Route::get('/{api_key}/report', 'APIController@getReport');
 Route::get('/{api_key}/{field}', 'APIController@getField');
