@@ -117,4 +117,16 @@ class APIController extends Controller
 
 		return $index_field;
 	}
+
+	public function insertEmployee($api_key)
+	{
+		$data = [
+			'name' => \Input::get('name'),
+			'password' => \Input::get('password')
+		];
+		
+		$employee_key = $this->database->getReference('/users/'.$api_key.'/employees')->push()->getKey();
+		return $this->database->getReference('/users/'.$api_key.'/employees/'.$employee_key)->getSnapshot()->getValue();
+
+	}
 }
