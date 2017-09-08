@@ -44,6 +44,7 @@ class APIController extends Controller
 	{
 		$array_data = [];
 		$name_employee = '';
+		$i=1;
 		$list_child = $this->database->getReference('/users/'.$api_key.'/employees/')->getChildKeys();
 		foreach ($list_child as $key => $code) {
 			$employee_id = $code;
@@ -52,7 +53,8 @@ class APIController extends Controller
 			foreach ($list_schedule as $key_schedule => $value_schedule) {
 				$list_data = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/schedulle/'.$value_schedule)->getValue();
 				array_push($array_data, [
-					'id' => $employee_id,
+					'id' => $i,
+					'employee_id' => $employee_id,
 					'name' => $employee_name,
 					'check_in' => $list_data['check_in'],
 					'check_out' => $list_data['check_out'],
@@ -67,6 +69,7 @@ class APIController extends Controller
 					'tunjangan_pulsa' => $list_data['tunjangan_pulsa'],
 					'gaji' => $list_data['gaji']
 				]);
+				$i++;
 			}
 		}
 
