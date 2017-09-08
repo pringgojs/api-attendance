@@ -36,22 +36,31 @@ background-color: #f5f5f5;
 border: 1px solid #cccccc;
 border-radius: 4px;
 }
+code {
+    word-wrap: break-word;
+}
 </style>
 </head>
 <body>
-<a href="help_print.php"><p id="print">Print</p></a>
-<div id="left_box">
-<ul>
-<li style="padding-left:16px;"><a href="#tentang">Tentang</a></li>
-<li style="padding-left:16px;"><a href="#installasi">Installasi</a></li>
-<li><span id="pel" class="plus">+</span> <a href="#retrive">Mengambil Data</a></li>
-<ul id="pelpel">
-<li><a href="#pegawai">Pegawai</a></li>
-<li><a href="#profile">Profile</a></li>
-<li><a href="#jadwal">Jadwal</a></li>
-<li><a href="#outlet">Outlet</a></li>
-<li><a href="#report">Report</a></li>
-</ul>
+    <a onclick="window.print()"><p id="print">Print</p></a>
+    <div id="left_box">
+        <ul>
+            <li style="padding-left:16px;"><a href="#tentang">Tentang</a></li>
+            <li style="padding-left:16px;"><a href="#installasi">Installasi</a></li>
+            <li><span id="pel" class="plus">+</span> <a href="#retrive">Mengambil Data</a></li>
+            <ul id="pelpel">
+                <li><a href="#pegawai">Pegawai</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#jadwal">Jadwal</a></li>
+                <li><a href="#outlet">Outlet</a></li>
+                <li><a href="#report">Report</a></li>
+            </ul>
+    <li><span id="pes" class="plus">+</span> <a href="#create">Tambah Data</a></li>
+    <ul id="pespes">
+        <li><a href="#tambah-pegawai">Pegawai</a></li>
+        <li><a href="#tambah-jadwal">Jadwal</a></li>
+        <li><a href="#tambah-outlet">Outlet</a></li>
+    </ul>
 </ul>
 </div>
 <div id="right_box">
@@ -93,7 +102,11 @@ Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 </pre>
 Dan output dari itu adalah
 <pre>
-<code>{"email":"admin@gmail.com","name":"administrator"}</code>
+<code>
+{
+    "email":"admin@gmail.com",
+    "name":"administrator"
+}</code>
 </pre>
 </p>
 </p>
@@ -107,7 +120,16 @@ Anda dapat mengambil data jadwal dengan menggunkan API seperti berikut.
 </pre>
 Dan output dari itu adalah
 <pre>
-<code>[null,{"branch_id":1,"date":"07-09-2017","time_in":"07:00","time_out":"15:00"},{"branch_id":1,"date":"08-09-2017","time_in":"07:00","time_out":"15:00"}]</code>
+<code>
+[
+    null,
+    {
+        "branch_id":1,"date":"07-09-2017","time_in":"07:00","time_out":"15:00"
+    },
+    {
+        "branch_id":1,"date":"08-09-2017","time_in":"07:00","time_out":"15:00"
+    }
+]</code>
 </pre>
 </p>
 
@@ -120,7 +142,12 @@ Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 </pre>
 Dan output dari itu adalah
 <pre>
-<code>{"123141":{"address":"Jl Musi 21","lat":-7.124143,"long":112.35135,"name":"Musi","notes":"B","phone":"A"}}</code>
+<code>
+{
+    "123141":{
+        "address":"Jl Musi 21","lat":-7.124143,"long":112.35135,"name":"Musi","notes":"B","phone":"A"
+    }
+}</code>
 </pre>
 </p>
 
@@ -133,7 +160,80 @@ Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 </pre>
 Dan output dari itu adalah
 <pre>
-<code>[{"id":1,"employee_id":"HJjasJSKJAS9823","name":"rani","check_in":"06:56","check_out":"15:09","date":"01-09-2017","denda":20000,"selisih_jam_datang":"8 menit","selisih_jam_pulang":"9 menit","time_in":"06:34","time_out":"15:45","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":100000},{"id":2,"employee_id":"OJFAEj1pj5o31po1","name":"andi","check_in":"06:55","check_out":"15:09","date":"01-09-2017","denda":20000,"selisih_jam_datang":"5 menit","selisih_jam_pulang":"9 menit","time_in":"07:00","time_out":"15:00","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":100000},{"id":3,"employee_id":"OJFAEj1pj5o31po1","name":"andi","check_in":"06:55","check_out":"15:10","date":"02-09-2017","denda":0,"selisih_jam_datang":"6 menit","selisih_jam_pulang":"10 menit","time_in":"07:00","time_out":"15:00","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":10000}]</code>
+<code>
+[
+    {
+        "id":1,"employee_id":"HJjasJSKJAS9823","name":"rani","check_in":"06:56","check_out":"15:09","date":"01-09-2017","denda":20000,"selisih_jam_datang":"8 menit","selisih_jam_pulang":"9 menit","time_in":"06:34","time_out":"15:45","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":100000
+    },
+    {   
+        "id":2,"employee_id":"OJFAEj1pj5o31po1","name":"andi","check_in":"06:55","check_out":"15:09","date":"01-09-2017","denda":20000,"selisih_jam_datang":"5 menit","selisih_jam_pulang":"9 menit","time_in":"07:00","time_out":"15:00","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":100000
+    },
+    {
+        "id":3,"employee_id":"OJFAEj1pj5o31po1","name":"andi","check_in":"06:55","check_out":"15:10","date":"02-09-2017","denda":0,"selisih_jam_datang":"6 menit","selisih_jam_pulang":"10 menit","time_in":"07:00","time_out":"15:00","tunjangan_makan":1000,"tunjangan_parkir":1000,"tunjangan_pulsa":1000,"gaji":10000
+    }
+]</code>
+</pre>
+</p>
+
+
+<br /><br /><br />
+<span style="display:block; font-size:18px; font-weight:bold" id="create">C. Tambah Data</span><br />
+
+<p class="page" id="tambah-pegawai">
+<label>1. Pegawai</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Anda dapat menambah data karyawan dengan menggunkan API seperti berikut.
+<pre>
+<code>
+Parameter: 
+    - name : berisi nama pegawai
+    - password : berisi password pegawai
+
+    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/employee?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+</pre>
+Dan output dari itu adalah
+<pre>
+<code class="language-json">
+[{"id":"-KtYCoG4HKHo4Mj3oasw","name":"pringgojs","password":"aisdasns"}]
+</code>
+</pre>
+</p>
+<p class="page" id="tambah-jadwal">
+<label>2. Jadwal</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Anda dapat menambah data jadwal dengan menggunkan API seperti berikut.
+<pre>
+<code>
+Parameter: 
+    - name : berisi nama pegawai
+    - password : berisi password pegawai
+
+    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/schedulle?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+</pre>
+Dan output dari itu adalah
+<pre>
+<code class="language-json">
+[{"id":"-KtYCoG4HKHo4Mj3oasw","name":"pringgojs","password":"aisdasns"}]
+</code>
+</pre>
+</p>
+<p class="page" id="tambah-outlet">
+<label>3. Outlet</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Anda dapat menambah data outlet dengan menggunkan API seperti berikut.
+<pre>
+<code>
+Parameter: 
+    - name : berisi nama pegawai
+    - password : berisi password pegawai
+
+    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/outlet?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+</pre>
+Dan output dari itu adalah
+<pre>
+<code class="language-json">
+[{"id":"-KtYCoG4HKHo4Mj3oasw","name":"pringgojs","password":"aisdasns"}]
+</code>
 </pre>
 </p>
 </div>

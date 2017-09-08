@@ -118,15 +118,23 @@ class APIController extends Controller
 		return $index_field;
 	}
 
-	public function insertEmployee($api_key)
+	public function insertEmployee(Request $request, $api_key)
 	{
+		if (! $request->input('name') || ! $request->input('password')) {
+			return json_encode(array('status' => 'error', 'message' => 'wrong parameter'));
+		}
+
 		$data = [
-			'name' => \Input::get('name'),
-			'password' => \Input::get('password')
+			'name' => $request->input('name'),
+			'password' => $request->input('password')
 		];
 		
-		$employee_key = $this->database->getReference('/users/'.$api_key.'/employees')->push()->getKey();
-		return $this->database->getReference('/users/'.$api_key.'/employees/'.$employee_key)->getSnapshot()->getValue();
+		$array_employee = [];
+		$employee_key = $this->database->getReference('/users/'.$api_key.'/employees')->push($data)->getKey();
+		$data = $this->database->getReference('/users/'.$api_key.'/employees/'.$employee_key)->getSnapshot()->getValue();
+		array_push($array_employee, ['id' => $employee_key, 'name' => $data['name'], 'password' => $data['password']]);
+
+		return json_encode($array_employee);
 
 	}
 }
