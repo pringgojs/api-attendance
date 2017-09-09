@@ -24,7 +24,7 @@ class APIController extends Controller
 	/**
 	 * API for get child
 	 * call api : api.attendance.app/[API_KEY]/[FIELD]
-	 * example : api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/employees
+	 * example : api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/employee
 	 */
 	public function getField($api_key, $field)
 	{
@@ -42,10 +42,10 @@ class APIController extends Controller
 		$array_data = [];
 		$name_employee = '';
 		$i=1;
-		$list_child = $this->database->getReference('/users/'.$api_key.'/employees/')->getChildKeys();
+		$list_child = $this->database->getReference('/users/'.$api_key.'/employee/')->getChildKeys();
 		foreach ($list_child as $key => $code) {
 			$employee_id = $code;
-			$employee_name = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/name')->getSnapshot()->getValue();
+			$employee_name = $this->database->getReference('/users/'.$api_key.'/employee/'.$code.'/name')->getSnapshot()->getValue();
 			array_push($array_data, ['id' => $employee_id, 'name' => $employee_name]);
 		}
 
@@ -60,25 +60,33 @@ class APIController extends Controller
 		$array_data = [];
 		$name_employee = '';
 		$i=1;
-		$list_child = $this->database->getReference('/users/'.$api_key.'/employees/')->getChildKeys();
+		$list_child = $this->database->getReference('/users/'.$api_key.'/employee/')->getChildKeys();
 		foreach ($list_child as $key => $code) {
 			$employee_id = $code;
-			$employee_name = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/name')->getSnapshot()->getValue();
-			$list_schedule = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/schedulle')->getChildKeys();
+			$employee_name = $this->database->getReference('/users/'.$api_key.'/employee/'.$code.'/name')->getSnapshot()->getValue();
+			$list_schedule = $this->database->getReference('/users/'.$api_key.'/employee/'.$code)->getChildKeys();
+			$is_schedule = array_search('schedulle', $list_schedule);
+
+			if (!$is_schedule) {
+				continue;
+			}
+
+			$list_schedule = $this->database->getReference('/users/'.$api_key.'/employee/'.$code.'/schedulle')->getChildKeys();
 			foreach ($list_schedule as $key_schedule => $value_schedule) {
-				$list_data = $this->database->getReference('/users/'.$api_key.'/employees/'.$code.'/schedulle/'.$value_schedule)->getValue();
+				$list_data = $this->database->getReference('/users/'.$api_key.'/employee/'.$code.'/schedulle/'.$value_schedule)->getValue();
 				array_push($array_data, [
 					'id' => $i,
 					'employee_id' => $employee_id,
 					'name' => $employee_name,
+					'branch_id' => $list_data['branchId'],
 					'check_in' => $list_data['check_in'],
 					'check_out' => $list_data['check_out'],
 					'date' => $list_data['date'],
 					'denda' => $list_data['denda'],
 					'selisih_jam_datang' => $list_data['selisih_jam_datang'],
 					'selisih_jam_pulang' => $list_data['selisih_jam_pulang'],
-					'time_in' => $list_data['time_in'],
-					'time_out' => $list_data['time_out'],
+					'time_in' => $list_data['shiftStart'],
+					'time_out' => $list_data['shiftEnd'],
 					'tunjangan_makan' => $list_data['tunjangan_makan'],
 					'tunjangan_parkir' => $list_data['tunjangan_parkir'],
 					'tunjangan_pulsa' => $list_data['tunjangan_pulsa'],
@@ -91,31 +99,14 @@ class APIController extends Controller
 		return json_encode($array_data);
 	}
 
-	public function getFieldByValue(Request $request, $api_key, $field)
+	public function getEmployeeId($api_key, $name)
 	{
-		$input = $request->input();
-		$key_search = key($input);
-		$value_search = $input[$key_search];
-
-		$index_field = '';
-		$user_database = $this->getUserDatabase($api_key);
-		$list_data = $this->database->getReference('/users/'.$user_database.'/'.$field)->getSnapshot()->getValue();
-		foreach ($list_data as $key => $value) {
-			if (is_array($value)) {
-				foreach ($value as $key2 => $value_child) {
-					if ($value_child[$key_search] == $value_search) {
-						$index_field = $key;
-						break;
-					}
-				}
-			}
-		}
-
-		if (! $index_field) {
+		$list_data = $this->database->getReference('/users/'.$api_key.'/employee')->orderByChild('name')->equalTo($name)->getSnapshot()->getValue();
+		if (!$list_data) {
 			return json_encode(array('status' => 'error', 'message' => 'data not found'));
 		}
 
-		return $index_field;
+		return $list_data;
 	}
 
 	public function insertEmployee(Request $request, $api_key)
@@ -130,8 +121,8 @@ class APIController extends Controller
 		];
 		
 		$array_employee = [];
-		$employee_key = $this->database->getReference('/users/'.$api_key.'/employees')->push($data)->getKey();
-		$data = $this->database->getReference('/users/'.$api_key.'/employees/'.$employee_key)->getSnapshot()->getValue();
+		$employee_key = $this->database->getReference('/users/'.$api_key.'/employee')->push($data)->getKey();
+		$data = $this->database->getReference('/users/'.$api_key.'/employee/'.$employee_key)->getSnapshot()->getValue();
 		array_push($array_employee, ['id' => $employee_key, 'name' => $data['name'], 'password' => $data['password']]);
 
 		return json_encode($array_employee);

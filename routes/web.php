@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/{api_key}/insert/employee', 'APIController@insertEmployee');
-Route::get('/{api_key}/employees', 'APIController@getEmployee');
+Route::get('/{api_key}/employee/{name}', 'APIController@getEmployeeId');
+Route::get('/{api_key}/employee', 'APIController@getEmployee');
 Route::get('/{api_key}/report', 'APIController@getReport');
 Route::get('/{api_key}/{field}', 'APIController@getField');

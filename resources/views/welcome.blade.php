@@ -51,14 +51,14 @@ code {
             <ul id="pelpel">
                 <li><a href="#pegawai">Pegawai</a></li>
                 <li><a href="#profile">Profile</a></li>
-                <li><a href="#jadwal">Jadwal</a></li>
+                <li><a href="#shift">Shift</a></li>
                 <li><a href="#outlet">Outlet</a></li>
                 <li><a href="#report">Report</a></li>
             </ul>
     <li><span id="pes" class="plus">+</span> <a href="#create">Tambah Data</a></li>
     <ul id="pespes">
         <li><a href="#tambah-pegawai">Pegawai</a></li>
-        <li><a href="#tambah-jadwal">Jadwal</a></li>
+        <li><a href="#tambah-shift">Shift</a></li>
         <li><a href="#tambah-outlet">Outlet</a></li>
     </ul>
 </ul>
@@ -73,7 +73,7 @@ Aplikasi ini adalah suatu alat yang diciptakan untuk mempermudah dalam perekepan
 <span style="display:block; font-size:18px; font-weight:bold" id="installasi">A. Instalasi</span><br />
 Ketika anda mendaftar setelah sebelumnya mendownload di Playstore, Anda secara ototis akan mendapat Token yang mana itu sebagai API Key untuk mengakses aplikasi ini.
 contoh API KEY <br>
-<pre><code>Of4FyAcAulVREqGJo4KqTefcUkU2</code></pre>
+<pre><code>Ek8Nky4rueVySMyvgtJN5tJqUGY2</code></pre>
 
 <br /><br /><br />
 <span style="display:block; font-size:18px; font-weight:bold" id="retrive">B. Mengambil Data</span><br />
@@ -83,12 +83,27 @@ contoh API KEY <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Anda dapat mengambil data karyawan dengan menggunkan API seperti berikut.
 <pre>
-<code>URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/employees</code>
+<code>URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/employees</code>
 </pre>
 Dan output dari itu adalah
 <pre>
 <code class="language-json">
 [{"id":"HJjasJSKJAS9823","name":"rani"},{"id":"OJFAEj1pj5o31po1",name":"andi"}]
+</code>
+</pre>
+Menampilkan pegawai berdasarkan nama
+<pre>
+<code>
+Parameter: 
+- name : berisi nama pegawai
+
+URL: http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/employee/lol
+</code>
+</pre>
+Dan output
+<pre>
+<code>
+{"-KtYou8HqiCwvvfl5Lmp":{"name":"lol","password":"lollol"}}
 </code>
 </pre>
 </p>
@@ -98,7 +113,7 @@ Dan output dari itu adalah
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 <pre>
-<code>URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/profile</code>
+<code>URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/profile</code>
 </pre>
 Dan output dari itu adalah
 <pre>
@@ -111,12 +126,12 @@ Dan output dari itu adalah
 </p>
 </p>
 
-<p class="page" id="jadwal">
-<label>3. Jadwal</label>
+<p class="page" id="shift">
+<label>3. Shift</label>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Anda dapat mengambil data jadwal dengan menggunkan API seperti berikut.
+Anda dapat mengambil data shift dengan menggunkan API seperti berikut.
 <pre>
-<code>URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/schedulles</code>
+<code>URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/shift</code>
 </pre>
 Dan output dari itu adalah
 <pre>
@@ -124,12 +139,19 @@ Dan output dari itu adalah
 [
     null,
     {
-        "branch_id":1,"date":"07-09-2017","time_in":"07:00","time_out":"15:00"
+        "name":"Shift 1","shiftEnd":"10:00","shiftStart":"08:00"
     },
     {
-        "branch_id":1,"date":"08-09-2017","time_in":"07:00","time_out":"15:00"
+        "name":"Shift 2","shiftEnd":"17:00","shiftStart":"12:00"
+    },
+    {
+        "name":"Shift 3","shiftEnd":"20:00","shiftStart":"17:00"
+    },
+    {
+        "name":"Shift 4","shiftEnd":"16:00","shiftStart":"08:00"
     }
-]</code>
+]
+</code>
 </pre>
 </p>
 
@@ -138,14 +160,14 @@ Dan output dari itu adalah
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 <pre>
-<code>URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/branch</code>
+<code>URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/branch</code>
 </pre>
 Dan output dari itu adalah
 <pre>
 <code>
 {
-    "123141":{
-        "address":"Jl Musi 21","lat":-7.124143,"long":112.35135,"name":"Musi","notes":"B","phone":"A"
+    "-KtYn1i-DIdBDJoeJ41y":{
+        "address":"ooo","latitude":-7.2858033,"longitude":112.63146,"name":"ooo"
     }
 }</code>
 </pre>
@@ -156,7 +178,7 @@ Dan output dari itu adalah
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Anda dapat mengambil data Profile dengan menggunkan API seperti berikut.
 <pre>
-<code>URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/report</code>
+<code>URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/report</code>
 </pre>
 Dan output dari itu adalah
 <pre>
@@ -189,7 +211,7 @@ Parameter:
     - name : berisi nama pegawai
     - password : berisi password pegawai
 
-    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/employee?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+    URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/insert/employee?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
 </pre>
 Dan output dari itu adalah
 <pre>
@@ -198,17 +220,17 @@ Dan output dari itu adalah
 </code>
 </pre>
 </p>
-<p class="page" id="tambah-jadwal">
-<label>2. Jadwal</label>
+<p class="page" id="tambah-shift">
+<label>2. Shift</label>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Anda dapat menambah data jadwal dengan menggunkan API seperti berikut.
+Anda dapat menambah data shift dengan menggunkan API seperti berikut.
 <pre>
 <code>
 Parameter: 
     - name : berisi nama pegawai
     - password : berisi password pegawai
 
-    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/schedulle?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+    URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/insert/schedulle?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
 </pre>
 Dan output dari itu adalah
 <pre>
@@ -227,7 +249,7 @@ Parameter:
     - name : berisi nama pegawai
     - password : berisi password pegawai
 
-    URL : http://api.attendance.app/Of4FyAcAulVREqGJo4KqTefcUkU2/insert/outlet?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
+    URL : http://api.attendance.app/Ek8Nky4rueVySMyvgtJN5tJqUGY2/insert/outlet?name[PARAMETER_NAMA]&password=[PARAMETER_PASSWORD]</code>
 </pre>
 Dan output dari itu adalah
 <pre>
