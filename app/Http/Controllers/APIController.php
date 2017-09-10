@@ -101,7 +101,7 @@ class APIController extends Controller
 
 	public function getEmployeeId($api_key, $name)
 	{
-		$list_data = $this->database->getReference('/users/'.$api_key.'/employee')->orderByChild('name')->equalTo($name)->getSnapshot()->getValue();
+		$list_data = $this->database->getReference('/users/'.$api_key.'/employees')->orderByChild('name')->equalTo($name)->getSnapshot()->getValue();
 		if (!$list_data) {
 			return json_encode(array('status' => 'error', 'message' => 'data not found'));
 		}
@@ -121,7 +121,7 @@ class APIController extends Controller
 		];
 		
 		$array_employee = [];
-		$employee_key = $this->database->getReference('/users/'.$api_key.'/employee')->push($data)->getKey();
+		$employee_key = $this->database->getReference('/users/'.$api_key.'/employees')->push($data)->getKey();
 		$data = $this->database->getReference('/users/'.$api_key.'/employee/'.$employee_key)->getSnapshot()->getValue();
 		array_push($array_employee, ['id' => $employee_key, 'name' => $data['name'], 'password' => $data['password']]);
 
